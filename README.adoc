@@ -1,7 +1,7 @@
 = FollowOCPN
 
 :icons: image
-:iconsdir: ./images/icons
+:iconsdir: ..
 
 == What this script does
 
