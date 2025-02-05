@@ -8,6 +8,7 @@ OpenCPN has built-in support for many autopilots but if your autopilot or other 
 If it does not do exactly what you need, it can be easily modified to suite your requirements.
 
 For devices running iNavX, it transfers the OpenCPN active route to iNavX and activates it.  Any updates to the route are updated in the iNavX app.
+See https://github.com/antipole2/FollowOCPN/blob/main/Working_with_iNavX.adoc[How to set up with iNavX].
 
 This script replaces my earlier SendActiveRoute script.
 
