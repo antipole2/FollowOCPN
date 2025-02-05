@@ -1,7 +1,7 @@
 = FollowOCPN
 :table-caption!:
 
-== What this script addresses
+== What this script does
 
 This script sends navigational and route data out over one or more NMEA0183 ports, thus making it available to other systems.
 
@@ -11,6 +11,26 @@ If it does not do exactly what you need, it can be easily modified to suite your
 For devices running iNavX, it transfers the OpenCPN active route to iNavX and activates it.  Any updates to the route are updated in the iNavX app.
 
 This script replaces my earlier SendActiveRoute script.
+
+At a chosen interval it sends the following NMEA0183 sentences
+
+* GLL
+* VTG
+* HDG
+* RMC
+
+=== If there is an active waypoint, it also sends
+
+* RMB
+* BOD
+
+At a chosen interval it sends
+
+* WPL for each waypoint in the route ensuring the waypoint name is unique within the route
+* RTE as many as required to define the route by linking the waypointst
+
+If the first waypoint in the route has not been reached, the script prepends a leg from the point of activation to the first waypoint
+
 
 == Installing the script
 
@@ -23,5 +43,3 @@ This script needs JavaScript plugin v3.1 or later.
 If you want to run the script when not online, you will need to save it to a local file.  You can tick the _Auto run_ box to have the script start automatically.
 
 Alternatively, you can fork the repository if you want to evolve the script.
-
-== What the script does
