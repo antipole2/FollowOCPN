@@ -1,8 +1,5 @@
 = FollowOCPN
 
-:icons: image
-:iconsdir: ./images/icons
-
 == What this script does
 
 This script sends navigational and route data out over one or more NMEA0183 ports, thus making it available to other systems.
