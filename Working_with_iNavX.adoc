@@ -15,7 +15,7 @@ iNavX needs to shadow OpenCPN and keep synchronised with any changes in the navi
 
 This document details how to make iNavX shadow OpenCPN using the FollowOCPN script.
 
-It causes iNavX to adopt any active waypoint or route.
+The script causes iNavX to adopt any active waypoint or route.
 As you advance along the route, iNavX will also advance.
 If you amend the route by adding or moving route points, iNavX will update accordingly.
 
@@ -54,12 +54,12 @@ together with predicted time on route and ETA.
 
 If you wish to force an advance to the next routepoint, this should be done on OpenCPN, whereupon iNavX will update too.
 
-If you advance the routepoint in iNavX, it will start ignoring changes in the active routepoint send from OpenCPN.
+If you advance the routepoint in iNavX, it will start ignoring changes in the active route point sent from OpenCPN.
 To restore this, go to the panel used for step 5 above, turn Enable Waypoints off and back on again. at home
 
 === Familiarisation at home
 
-You can excercise the set up and familiarise yourself with it while away from your boat at home.
+You can exercise the set-up and familiarise yourself with it while away from your boat at home.
 
 • Set up OpenCPN as above
 • Activate a route or waypoint
@@ -72,28 +72,6 @@ Using the JavaScript plugin, open an additional console via the Tools button.
 Load the driver.js script into this console and run it.
 You can, for example, set a compass course and speed.
 See the Driver link:https:../Driver/Driver.adoc[instructions here.]
-
-
-== Limitations
-[WARNING]
-====
-*Duplication of names* +
-Unlike OpenCPN but like most navigationl applications, iNavX identifies waypoints and routes by their unique name.
-It replaces anything with the same name, so if I navigate +
-Route 1 with routepoints A, B, C & D +
-and then a different +
-Route 2 with routepoints A, X, C & Y +
-Route 1 still exists withing iNavX but the routepoints A and C within it have the position of those routepoints in Route B.
-
-If you have inserted or appended routepoints, it is quite likely your route contains different routepoints wih the same name, such as NM001.
-This will confuse iNavX, whiich will wrongly use one waypoint multiple times.
-
-The practical and easy solution to this is to resequence the routepoints by control-clicking on the route and selecting Resequence Waypoints...
-I have used this extensively.  I do this before starting on any route and have had no issues.
-
-Alternatively, you can make all routepoint names unique by using the link:https:../Housekeeper/Housekeeper.adoc[Housekeeper script].
-However, you would need to repeat this if you add new waypoints.
-====
 
 == My network set up
 
@@ -109,20 +87,3 @@ and sends NMEA data on port 60002.
 Other devices receive via port 60002.
 
 In the event that OpenCPN were to fail, I would connect the iOS devices via port 60001 and they would receive the navigational data directly, without it being procesed via OpenCPN.
-
-== Implementation notes
-
-These notes may be of iterest to those maintining the script.
-They are not need to use it.
-
-=== Forming the RTE sentences
-
-A challenge in writing this script was forming the RTE sentences, which list the routepoints.
-NMEA sentences are limited to 80 characters, so several "n of m" installments are required.
-How many depends on the number of routepoints and the length of the routepoint names.
-
-The easy way out would be to send each routepoint in its own RTE installment.
-So with 6 routepoints there would be 6 RTE installments.
-Simpe but inefficient.
-
-The script actually packs the routepoints into the minimum number of RTE installements possible.
