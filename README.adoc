@@ -14,20 +14,20 @@ This script replaces my earlier SendActiveRoute script.
 
 === At a chosen interval the script sends
 
-* GLL
-* VTG
-* HDG
-* RMC
+[horizontal]
+$  GLL::  
+$  VTG::  
+$  HDG:: Omitted if stationary
+$  RMC::  
+$  MWV:: If wind data available
+$  RMB:: If there is an active waypoint, it also sends
+$  BOD::  
 
-=== If there is an active waypoint, it also sends
+=== At a different chosen interval it sends
 
-* RMB
-* BOD
-
-==== At a different chosen interval it sends
-[unordrerd.stack]
-WPL:: for each waypoint in the route
-RTE:: as many as required to define the route by linking the waypoints
+[horizontal]
+$  WPL:: for each waypoint in the route
+$  RTE:: as many sentences as required to define the route by linking the waypoints
  
 NOTE: If the first waypoint in the route has not been reached, the script prepends a leg from the point of activation `Start` to the first waypoint
 
