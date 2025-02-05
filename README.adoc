@@ -1,4 +1,4 @@
-= FollowCPN
+= FollowOCPN
 :table-caption!:
 
 == What this script addresses
