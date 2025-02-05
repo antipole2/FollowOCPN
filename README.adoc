@@ -45,3 +45,9 @@ This script needs JavaScript plugin v3.1 or later.
 If you want to run the script when not online, you will need to save it to a local file.  You can tick the _Auto run_ box to have the script start automatically.
 
 Alternatively, you can fork the repository if you want to evolve the script.
+
+== Support
+
+The script can be discussed in the Discussion forum above.
+
+Issues can be reported using the Issues tab.
