@@ -24,12 +24,12 @@ This script replaces my earlier SendActiveRoute script.
 * RMB
 * BOD
 
-At a different chosen interval it sends::
+==== At a different chosen interval it sends
 [unordrerd.stack]
 WPL:: for each waypoint in the route
 RTE:: as many as required to define the route by linking the waypoints
  
-NOTE: If the first waypoint in the route has not been reached, the script prepends a leg from the point of activation to the first waypoint
+NOTE: If the first waypoint in the route has not been reached, the script prepends a leg from the point of activation `Start` to the first waypoint
 
 NOTE: OpenCPN does not require waypoint names to be unique.  If a route were constructed with the same waypoint name used for different points, it would be ambigious.  The script therefore ensures waypoint names within a route are unique.
 
