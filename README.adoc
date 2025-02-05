@@ -1,6 +1,7 @@
 = FollowOCPN
-:table-caption!:
+
 :icons: image
+:iconsdir: ./images/icons
 
 == What this script does
 
