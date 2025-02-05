@@ -10,9 +10,20 @@ If it does not do exactly what you need, it can be easily modified to suite your
 For devices running iNavX, it transfers the OpenCPN active route to iNavX and activates it.  Any updates to the route are updated in the iNavX app.
 See https://github.com/antipole2/FollowOCPN/blob/main/Working_with_iNavX.adoc[How to set up with iNavX].
 
+The iNavX notes include advice on how to set up a WiFi connection between a device and OpenCPN.
+
 This script replaces my earlier SendActiveRoute script.
 
-=== At a chosen interval the script sends
+=== Configuring the script
+
+At the start of the script are configuration options
+
+`const ports = [60002, 60003];	// The output ports to offer
+const navUpdatePeriod = 5;	// navigation data update period in seconds
+const courseUpdatePeriod = 10;	// course data update period in seconds
+const adviseTime = 7;			// seconds to display notifications.  Set to false to suppress`
+
+=== At the `navUpdatePeriod` interval the script sends
 
 [horizontal]
 $  GLL::  
@@ -23,7 +34,7 @@ $  MWV:: If wind data available
 $  RMB:: If there is an active waypoint, it also sends
 $  BOD::  
 
-=== At a different chosen interval it sends
+=== At the `courseUpdatePeriod` interval it sends
 
 [horizontal]
 $  WPL:: for each waypoint in the route
