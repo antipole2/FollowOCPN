@@ -71,7 +71,8 @@ You can drive the ship using a simulator.
 Using the JavaScript plugin, open an additional console via the Tools button.
 Load the driver.js script into this console and run it.
 You can, for example, set a compass course and speed.
-See the Driver link:https:../Driver/Driver.adoc[instructions here.]
+
+See the Driver https://github.com/antipole2/JavaScripts-shared/blob/main/Driver/Driver.adoc[instructions here.]
 
 == My network set up
 
