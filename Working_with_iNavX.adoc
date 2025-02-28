@@ -1,0 +1,81 @@
+= Setting up iNavX to work with the followOCPN script
+
+:imagesdir: images
+
+For this to work, your device running iNavX needs to receive NMEA data over a WiFi connection via a WiFi router.
+
+[NOTE]
+====
+Many instrument WiFi gateways that create their own WiFi network are not actual routers.
+This is the case, for example, for the Actisense W2K-1 and also the Yacht Devices YDNR-02N.
+
+If your gateway is not also a router, you need a WiFi router and need to connect your gateway as a client of that network.
+You could use a 12V-powered WiFi router (readily available) or your computer may be able to provide this.
+MacOS can create an _ad hoc_ WiFi network from the WiFi pull-down menu. In Monterey and later, this is hidden unless you enable it in Settings->Network->WiFi->Advanced and tick _Show legacy networks and options_.
+I happen to have a USB-powered mini-hub that British Telecom gave me when we were moving house.
+This does contain a router.
+====
+
+. Have OpenCPN receive NMEA data from your gateway on one port - say 60001
+. Have OpenCPN send NMEA data on a different port - say 60002 +
+You will need a sending port for each iNavX device you wish to connect. +
+Drop outgoing sentences `ECRMB,ECAPB,ECXTE` because the script sends modified sentences using the device identifier configured in the script. See the screenshot the below.
+
+image::OutputChannelForiNavX.png[]
+
+[start = 3]
+. Determine the IP address of your computer.  On MacOS, System Preferences > Network > WiFi > Advanced > TCP/IP.
+. Connect your device to the same WiFi network
+. Within iNavX select Instruments  > TCP/IP and on the TCP tab set the Host to the IP address of your computer and port number to as in Step 2 above.
+. On the same panel, enable Waypoints and enable Link. +
+You should now see green NMEA sentences scrolling in the monitoring pane of this panel.
+
+image::iNavX_TCP.PNG[]
+
+[start = 7]
+. Click Done and then select the Chart.
+
+iNavX should now follow the ship's navigation using the ship's navigation data.
+
+[TIP]
+====
+*Familiarisation and testing at home*
+
+In the absense of a navigational feed you can drive the ship using a simulator.
+
+I use the driver.js script running in a separate console.
+You can set a compass course and speed.
+You can also set the wind so you can check the wind direction shown in iNavX.
+
+Open an additional console via the Tools button for the Driver script.
+
+See the Driver https://github.com/antipole2/JavaScripts-shared/blob/main/Driver/Driver.adoc[instructions here.]
+====
+
+When a waypoint becomes active in OpenCPN, it becomes active in iNavX.
+
+== Mirroring an OpenCPN route
+
+When a route is activated in OpenCPN, it appears as the active route in iNavX.
+
+As OpenCPN advances the routepoint, so iNavX advances its active routepoint.
+Progress along the route is available in the route tab of the ribbon at the top of the iNavX screen,
+together with predicted time on route and Estimated Time of Arrival (ETR).  Tapping on the RTN button displays the whole route with distance or times.
+
+image::iNavXunderWay.jpeg[]
+
+If you wish to force an advance to the next routepoint, this should be done in OpenCPN, whereupon iNavX will update too.
+
+[CAUTION]
+If you advance the routepoint in iNavX, it will start ignoring changes in the active routepoint sent from OpenCPN.
+To restore this, turn Enable Waypoints off and back on again.
+[NOTE]
+Sometimes the dotted blue line joining the points into a route is not displayed.  See https://github.com/antipole2/FollowOCPN/issues/2[here for details].
+[WARNING]
+====
+Like many navigation packages, iNavX identifies a mark by its name.  OpenCPN identifies it by GUID and different or points can have the same name.  A route created in OpenCPN typically has point names `001, 002, 003` et seq.  If a different route is sent to iNavX using the same point names, the point will be moved to a new location.  This would dangerously invalidate an existing route using that point.
+
+Do not use iNavX to navigate an earlier route without checking.  It is safe to send the earlier route from OpenCPN again.
+====
+
+_V1 27 Feb 2025_

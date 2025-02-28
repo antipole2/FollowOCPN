@@ -1,0 +1,107 @@
+= FollowOCPN
+
+== What this script does
+
+This script sends navigational and route data out over one or more NMEA0183 ports, thus making it available to other systems.
+
+OpenCPN has built-in support for many autopilots but if your autopilot or other system is not supported, this script could be the way to add support for your device.
+If it does not do exactly what you need, it can be easily modified to suite your requirements.
+
+For devices running https://inavx.com[iNavX], it transfers the OpenCPN active route to iNavX and activates it.  Any updates to the route are updated in the iNavX app.
+
+This script is a replacement for my earlier SendActiveRoute.  It takes advantage of newer techniques available in OpenCPN v5.10 and JavaScript plugin v3.1.
+It does not depend on NMEA0183 navigation data and so will work with a NMEA2000 navigational feed.
+It is more robust and handles situations such as switching between routes without deactivating the previous one.
+
+OpenCPN identifies routes and waypoints by a unique GUID.  This allows multiple routes or waypoints to have the same name.  When waypoints are sent over NMEA0183, they are identified by name.  If a route contained different waypoints with the same name, this would cause confusion and a corrupt route.
+The script makes sure each waypoint within a route is unique.  It adds suffixes, if need be, to ensure the integrity of the route. (There is a setting to turn this behaviour off.) If a route is circular and shares an earlier waypoint, a waypoint with a different name will be sent for each occurrence in the route. 
+
+=== Configuring the script
+
+At the start of the script are configuration options
+
+```
+const ports = [60002, 60003];	// The output ports to offer
+const navUpdatePeriod = 5;	// navigation data update period in seconds
+const courseUpdatePeriod = 10;	// course data update period in seconds
+const adviseTime = 7;			// seconds to display notifications.  Set to false to supress
+const maxWaypointNameLength = 15;
+const maxRouteNameLength = 60;
+const uniqueNames = true;		// uniquify routepoint names within route
+const sender = "FO";	// NMEA0183 sender ID for generated sentences
+```
+
+=== At the `navUpdatePeriod` interval the script sends
+
+[horizontal]
+$  GLL::  
+$  VTG::  
+$  HDG:: Omitted if stationary
+$  RMC:: Navigation Recommended Minimum C
+
+=== At the `courseUpdatePeriod` interval it sends
+
+[horizontal]
+$  WPL:: for each waypoint in the route
+$  RTE:: as many sentences as required to define the route by linking the waypoints
+ 
+NOTE: If the first waypoint in the route has not been reached, the script prepends a leg from the point of activation `Start` to the first waypoint
+
+=== When OpenCPN is generating active leg data, it also sends
+
+[horizontal]
+$  RMB:: Navigation Recommended Minimum B
+$  BOD:: Bearing from Origin to Destination
+
+=== Goto routes
+
+OpenCPN may create two different _goto_ routes, each comprising just two points:
+
+1. In response to 'Navigate to here': _Temporary GOTO Route_
+2. In response to 'Navigate to This': _Go to Dropped mark_
+
+In these cases, the RTE and BOD sentences are omitted.
+A remote device will use the remaining WPT and RMB sentences to navigate to the destination without it creating a route.
+
+== Working with iNavX
+
+Running a tablet or phone as a repeater for OpenCPN is unsatisfactory.
+Viewing OpenCPN on such a small screen gives a poor experience.
+Further, if OpenCPN were to fail, the repeater would also fail.
+There is no resilience.
+
+There are navigational applications better optimised for these devices and more robust.
+One is https://inavx.com[iNavX], which is available on iOS (iPad and iPhone) and Android devices.
+
+If OpenCPN is being used as the main planning tool and navigational application,
+iNavX needs to shadow OpenCPN and keep synchronised with any changes in the navigation.
+
+This script can be used to make iNavX shadow OpenCPN.
+It causes iNavX to adopt any active waypoint or route.
+As you advance along the route, iNavX will also advance.
+If you amend the route by adding or moving route points, iNavX will update accordingly.
+
+In the event that OpenCPN were to fail, iNavX will continue to navigate from its own ship's navigational feed.
+If that feed were to fail, a device with its own GPS receiver would switch to using that.
+This provided important resilience.
+
+See https://github.com/antipole2/FollowOCPN/blob/main/Working_with_iNavX.adoc[How to set up with iNavX].
+This includes advice on how to set up a WiFi connection between a device and OpenCPN.
+
+== Installing the script
+
+This script needs JavaScript plugin v3.1.1 or later.
+
+1. Copy this URL to your clipboard (copy the link - do not follow it) `https://raw.githubusercontent.com/antipole2/FollowOCPN/main/followOCPN.js`
+2. In a JavaScript console choose `Load` and then `URL on clipboard`.  The script should be loaded into the script pane.
+3. Choose `Run` to start the script.
+
+If you want to run the script when not online, you will need to save it to a local file.  You can tick the _Auto run_ box to have the script start automatically.
+
+Alternatively, you can fork the repository if you want to evolve the script.
+
+== Support
+
+The script can be discussed in the Discussion forum above.
+
+Issues can be reported using the Issues tab.
